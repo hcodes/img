@@ -1,0 +1,163 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>Тесты с загрузкой картинок</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+  <script>
+    function printInfo(image, title, preId) {
+        var p = image.parentNode,
+            pre = preId ? document.getElementById(preId) : p.getElementsByTagName('pre')[0],
+            text = '';
+
+        [
+            'complete', 'width', 'height', 'naturalWidth', 'naturalHeight'
+        ].forEach(function(key, i) {
+            text += (i + 1) + '. ' + key + ': ' + image[key] + '\n';
+        });
+
+        pre.innerHTML += '<b>' + title + '</b>' + '\n' + text;
+    }
+  </script>
+  <style>
+    .test
+    {
+        border: 1px solid #f0f0f0;
+        padding: 1em;
+        margin: 1em;
+        float: left;
+        width: 300px;
+        height: 300px;
+    }
+  </style>
+
+  <div class="test">
+    1. Картинка с протоколом file:<br />
+    <img src="image1.jpg" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" />
+    <pre></pre>
+  </div>
+
+  <div class="test">
+    2. 404 с протоколом file:<br />
+    <img src="image2.jpg" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" />
+    <pre></pre>
+  </div>
+
+  <div class="test">
+    3. Размеры не соответствуют реальным размерам<br />
+    <img src="image1.jpg" width="50" height="50" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" />
+    <pre></pre>
+  </div>
+
+  <div class="test">
+    4. Картинка с https:<br />
+    <img src="https://yastatic.net/morda-logo/i/bender/logo.png" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" />
+    <pre></pre>
+  </div>
+
+  <div class="test">
+    5. new Image() с file:<br />
+    <script>
+        (function() {
+            var img = new Image();
+
+            img.onload = function() {
+                printInfo(img, 'onload', 'pre5');
+            };
+
+            img.onerror = function() {
+                printInfo(img, 'onerror', 'pre5');
+            };
+
+            img.onabort = function() {
+                printInfo(img, 'onabort', 'pre5');
+            };
+
+            img.src = 'image1.jpg';
+        })();
+    </script>
+    <pre id="pre5"></pre>
+  </div>
+
+  <div class="test">
+    6. new Image() с https:<br />
+    <script>
+        (function() {
+            var img = new Image();
+
+            img.onload = function() {
+                printInfo(img, 'onload', 'pre6');
+            };
+
+            img.onerror = function() {
+                printInfo(img, 'onerror', 'pre6');
+            };
+
+            img.onabort = function() {
+                printInfo(img, 'onabort', 'pre6');
+            };
+
+            img.src = 'https://yastatic.net/morda-logo/i/bender/logo.png';
+        })();
+    </script>
+    <pre id="pre6"></pre>
+  </div>
+  
+  <div class="test">
+    7. new Image() с about:blank<br />
+    <script>
+        (function() {
+            var img = new Image();
+
+            img.onload = function() {
+                printInfo(img, 'onload', 'pre7');
+            };
+
+            img.onerror = function() {
+                printInfo(img, 'onerror', 'pre7');
+            };
+
+            img.onabort = function() {
+                printInfo(img, 'onabort', 'pre7');
+            };
+
+            img.src = 'about:blank';
+        })();
+    </script>
+    <pre id="pre7"></pre>
+  </div>
+  
+  
+  <div class="test">
+    8. Base64<br />
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" />
+    <pre></pre>
+  </div>
+  
+  <div class="test">
+    9. С атрибутом srcset.<br />
+    <img srcset="https://avatars.yandex.net/get-music-content/7a67ed76.a.8213-1/80x80 2x" src="https://avatars.yandex.net/get-music-content/7a67ed76.a.8213-1/40x40" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" >
+    <pre></pre>
+  </div>
+  
+  <div class="test">
+    10. javascript:<br />
+    <img src="javascrip:alert(1);return false;" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" >
+    <pre></pre>
+  </div>
+  
+  <div class="test">
+    11. GIF с анимацией, file:<br />
+    <img src="example.gif" width="50" height="50" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" >
+    <pre></pre>
+  </div>
+
+  <div class="test">
+    12. GIF с анимацией, https:<br />
+    <img src="https://d13yacurqjgara.cloudfront.net/users/31664/screenshots/893769/bipolar-ball.gif" onload="printInfo(this, 'onload')" onerror="printInfo(this, 'onerror')" onabort="printInfo(this, 'onabort')" alt="" >
+    <pre></pre>
+  </div>
+
+</body>
+</html>
